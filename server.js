@@ -183,7 +183,7 @@ app.post('/data', function(req, res){
     db.close();
     });
 	}
-}
+});
 
 // error handling
 app.use(function(err, req, res, next){
