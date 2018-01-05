@@ -6,12 +6,12 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
 ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
     
 app.get('/', function(req, res){
-    res.send('hello ROOT world + webhook v2');
+    res.send('hello ROOT world and webhook');
 });
 
 console.log("Registering endpoint: /stubbed");
 app.get('/stubbed', function(req, res){
-    res.send('hello STUBBED');
+    res.send('hello STUBBED 2');
 });
 
 console.log("Registering endpoint: /testing");
