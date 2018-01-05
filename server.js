@@ -11,7 +11,7 @@ app.get('/', function(req, res){
 
 console.log("Registering endpoint: /stubbed");
 app.get('/stubbed', function(req, res){
-    res.send('hello STUBBED 2');
+    res.send('hello STUBBED 3');
 });
 
 console.log("Registering endpoint: /testing");
