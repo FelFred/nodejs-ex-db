@@ -41,6 +41,7 @@ var initDb = function(callback) {
 
   mongodb.connect(mongoURL, function(err, conn) {
     if (err) {
+   	  console.log("Error al conectar con DB @ initDb")
       callback(err);
       return;
     }
@@ -97,6 +98,10 @@ app.get('/jsonendpoint', function(req, res){
 
 console.log("Registering createcollection: /create");
 app.get('/create', function(req, res){
+
+
+	console.log("\nReceived GET request to /create");
+
 	 // try to initialize the db on every request if it's not already
 	 // initialized.
 	 if (!db) {
