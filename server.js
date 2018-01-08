@@ -59,7 +59,7 @@ var initDb = function(callback) {
 
 // endpoints
 app.get('/', function(req, res){
-    res.send('hello ROOT world, se añaden líneas para debug');
+    res.send('hello ROOT world. Se añaden líneas para debug');
     /*
    // try to initialize the db on every request if it's not already
   // initialized.
