@@ -34,10 +34,17 @@ var db = null,
     dbDetails = new Object();
 
 var initDb = function(callback) {
-  if (mongoURL == null) return;
+  console.log("Running initDb");	
+  if (mongoURL == null) {
+  	console.log("mongoURL = null");
+  	return;
+  }
 
   var mongodb = require('mongodb');
-  if (mongodb == null) return;
+  if (mongodb == null) {
+  	console.log("mongodb = null");
+  	return;
+  }
 
   mongodb.connect(mongoURL, function(err, conn) {
     if (err) {
