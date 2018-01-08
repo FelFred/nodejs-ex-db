@@ -105,9 +105,11 @@ app.get('/create', function(req, res){
 	 // try to initialize the db on every request if it's not already
 	 // initialized.
 	 if (!db) {
+	 	console.log("DB not initialized. Calling initDb...");
 	   initDb(function(err){});
 	 }
 	 if (db) {
+	 	console.log("DB initialized. Attempting to create collection and insert data.");
 	    db.createCollection("customers", function(err, res) {
 	    if (err) throw err;
 	    console.log("Collection created!");
@@ -147,10 +149,12 @@ app.get('/data', function(req, res){
 	// try to initialize the db on every request if it's not already
 	// initialized.
 	if (!db) {
+	   console.log("DB not initialized. Calling initDb...");
 	   initDb(function(err){});
 	}
     
     if (db) {
+     console.log("DB initialized. Attempting to get all data.");
  	 db.collection("customers").find({}).toArray(function(err, result) {
 	  if (err) throw err;
 	    console.log(result); // entrega json en consola que corre el servidor
@@ -176,10 +180,12 @@ app.post('/data', function(req, res){
   // try to initialize the db on every request if it's not already
 	// initialized.
 	if (!db) {
+	   console.log("DB not initialized. Calling initDb...");
 	   initDb(function(err){});
     }
     
-    if (db) {  
+    if (db) {
+    console.log("DB initialized. Attempting to get a particular set of data.");  
     dbase.collection("customers").findOne(body_data, function(err, result) {
     if (err) throw err;
     console.log("Trying to find document...")
