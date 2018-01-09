@@ -243,8 +243,8 @@ app.post('/data', function(req, res){
   var body_data = req.body;  //datos de la petición
   var headers_data = req.headers; //cabecera de la petición
   //Se imprimen cuerpo y cabecera en consola del servidor
-  console.log(req.body);
-  console.log(req.headers); 
+  console.log("Body data: " + req.body);
+  console.log("Header data: " + req.headers); 
 
   // try to initialize the db on every request if it's not already
 	// initialized.
