@@ -153,21 +153,20 @@ app.get('/create', function(req, res){
 	   initDb(function(err){});
 	 }
 	 if (db) {
+	 	console.log("DB initialized. Attempting to create collection and insert data.");
 	 	mongodb.connect(mongoURL, function(err, db) {
 		    if (err) {
 		   	  console.log("Error al conectar con DB @ /create")
 		      callback(err);
 		      return;
-		    }
-
-		 	console.log("DB initialized. Attempting to create collection and insert data.");
+		    }		 	
 		    db.createCollection("customers", function(err, res) {
-		    if (err) {
-		    	console.log("Error found while attempting to create collection");
-		    	throw err;
-		    }
-		    console.log("Collection created!");
-		    db.close();
+		    	if (err) {
+		    		console.log("Error found while attempting to create collection");
+		    		throw err;
+		   		}
+		    	console.log("Collection created!");
+		    	db.close();
 		    });
 		    var myobj = [
 		    { _id: 1, name: 'John', address: 'Highway 71'},
@@ -186,15 +185,15 @@ app.get('/create', function(req, res){
 		    { _id: 14, name: 'Viola', address: 'Sideway 1633'}
 		  ];
 		  
-		  db.collection("customers").insertMany(myobj, function(err, res) {
-		    if (err) {
-		    	console.log("Error found while attempting to insert documents into the collection.")
-		    	throw err;
-		    }
-		    console.log("Number of documents inserted: " + res.insertedCount);
-		    db.close();
-		  });
-		}
+		  	db.collection("customers").insertMany(myobj, function(err, res) {
+		    	if (err) {
+		    		console.log("Error found while attempting to insert documents into the collection.")
+		    		throw err;
+		   		}
+		    	console.log("Number of documents inserted: " + res.insertedCount);
+		    	db.close();
+		  	});
+		});
     }
 });
 
@@ -218,21 +217,20 @@ app.get('/data', function(req, res){
 		      callback(err);
 		      return;
 		    }
+	     
+	 	 	db.collection("customers").find({}).toArray(function(err, result) {
+		  		if (err) {
+		  			console.log("Error found while attempting to get all data."); 
+		  			throw err;
+		  		}
 
-	     console.log("DB initialized. Attempting to get all data.");
-	 	 db.collection("customers").find({}).toArray(function(err, result) {
-		  if (err) {
-		  	console.log("Error found while attempting to get all data."); 
-		  	throw err;
-		  }
-
-		    console.log(result); // entrega json en consola que corre el servidor
-		    //res.json(JSON.stringify(result));  // entrega string del json encerrado por paréntesis cuadrádos [<json>], por ser un arreglo
-		    res.json(result); // Entrega arreglo con resultados en la consola del cliente
-		    //res.jsonp(result); //en este caso hace lo mismo que el anterior, falta leer documentación
-		    db.close();
-		 })
-	 	}
+		    	console.log(result); // entrega json en consola que corre el servidor
+		    	//res.json(JSON.stringify(result));  // entrega string del json encerrado por paréntesis cuadrádos [<json>], por ser un arreglo
+		    	res.json(result); // Entrega arreglo con resultados en la consola del cliente
+		    	//res.jsonp(result); //en este caso hace lo mismo que el anterior, falta leer documentación
+		    	db.close();
+		 	})
+	 	});
     }
 });
 
@@ -255,24 +253,24 @@ app.post('/data', function(req, res){
     }
     
     if (db) {
+    	console.log("DB initialized. Attempting to get a particular set of data.");
     	mongodb.connect(mongoURL, function(err, db) {
 		    if (err) {
 		   	  console.log("Error al conectar con DB @ /data (POST)")
 		      callback(err);
 		      return;
-		    }
-		    console.log("DB initialized. Attempting to get a particular set of data.");  
+		    }		      
 		    db.collection("customers").findOne(body_data, function(err, result) {
-		    if (err) {
-			 console.log("Error found while attempting to get a particular document.");
-		     throw err;
-		    }
-		    console.log("Trying to find document...")
-		    console.log(result); //Se imprime output en consola del servidor
-		    res.json(result);    //Se imprime output en consola del cliente
-		    db.close();
+		    	if (err) {
+			 		console.log("Error found while attempting to get a particular document.");
+		     	throw err;
+		    	}
+		    	console.log("Trying to find document...")
+		    	console.log(result); //Se imprime output en consola del servidor
+		    	res.json(result);    //Se imprime output en consola del cliente
+		    	db.close();
 		    });
-		}
+		});
 	}
 });  // fixed
 
