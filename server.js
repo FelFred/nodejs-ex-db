@@ -124,6 +124,7 @@ app.get('/jsonendpoint', function(req, res){
 console.log("Registering endpoint: /env");
 app.get('/stubbed', function(req, res){
     res.send('Printing environment data...');
+    env_data();
 
     // 1.0 =  1ra version modificada del día 09/01/2018
 });
