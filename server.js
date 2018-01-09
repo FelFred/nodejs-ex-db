@@ -11,8 +11,8 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
 
 // Look at env
 var env_data = function () {
-	console.log("Printing process.env...\n")
-	console.log(process.env);
+	//console.log("Printing process.env...\n")
+	//console.log(process.env);
 	console.log("\nPort =" + port);
 	console.log("IP =" +  ip);
 	console.log("mongoURL =" + mongoURL);
