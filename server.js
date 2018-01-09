@@ -11,7 +11,9 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
 
 // Look at env
 var env_data = function () {
-	console.log("Port =" + port);
+	console.log("Printing process.env...\n")
+	console.log(process.env);
+	console.log("\nPort =" + port);
 	console.log("IP =" +  ip);
 	console.log("mongoURL =" + mongoURL);
 	console.log("\n\n Mongo data:\n")
@@ -107,7 +109,7 @@ app.get('/', function(req, res){
 
 console.log("Registering endpoint: /version");
 app.get('/version', function(req, res){
-    res.send('Version: 1.0');
+    res.send('Version: 1.1');
     // 1.0 =  1ra version modificada del día 09/01/2018
 });
 
