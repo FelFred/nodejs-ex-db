@@ -106,7 +106,7 @@ app.get('/', function(req, res){
 });
 
 console.log("Registering endpoint: /version");
-app.get('/stubbed', function(req, res){
+app.get('/version', function(req, res){
     res.send('Version: 1.0');
     // 1.0 =  1ra version modificada del día 09/01/2018
 });
@@ -122,7 +122,7 @@ app.get('/jsonendpoint', function(req, res){
 });
 
 console.log("Registering endpoint: /env");
-app.get('/stubbed', function(req, res){
+app.get('/env', function(req, res){
     res.send('Printing environment data...');
     env_data();
 
