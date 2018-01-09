@@ -112,7 +112,7 @@ app.get('/', function(req, res){
 
 console.log("Registering endpoint: /version");
 app.get('/version', function(req, res){
-    res.send('Version: 1.1');
+    res.send('Version: 1.2');
     // 1.0 =  1ra version modificada del día 09/01/2018
 });
 
@@ -132,6 +132,14 @@ app.get('/env', function(req, res){
     env_data();
 });
 
+
+console.log("Registering db init: /init");
+app.get('/init', function(req, res){
+	// Inicializo conexión con db. Es decir, me conecto por primera vez y guardo los datos en objeto.
+    initDb(function(err){});    
+});
+
+
 console.log("Registering createcollection: /create");
 app.get('/create', function(req, res){
 
@@ -145,37 +153,48 @@ app.get('/create', function(req, res){
 	   initDb(function(err){});
 	 }
 	 if (db) {
-	 	console.log("DB initialized. Attempting to create collection and insert data.");
-	    db.createCollection("customers", function(err, res) {
-	    if (err) throw err;
-	    console.log("Collection created!");
-	    db.close();
-	    });
-	    var myobj = [
-	    { _id: 1, name: 'John', address: 'Highway 71'},
-	    { _id: 2, name: 'Peter', address: 'Lowstreet 4'},
-	    { _id: 3, name: 'Amy', address: 'Apple st 652'},
-	    { _id: 4, name: 'Hannah', address: 'Mountain 21'},
-	    { _id: 5, name: 'Michael', address: 'Valley 345'},
-	    { _id: 6, name: 'Sandy', address: 'Ocean blvd 2'},
-	    { _id: 7, name: 'Betty', address: 'Green Grass 1'},
-	    { _id: 8, name: 'Richard', address: 'Sky st 331'},
-	    { _id: 9, name: 'Susan', address: 'One way 98'},
-	    { _id: 10, name: 'Vicky', address: 'Yellow Garden 2'},
-	    { _id: 11, name: 'Ben', address: 'Park Lane 38'},
-	    { _id: 12, name: 'William', address: 'Central st 954'},
-	    { _id: 13, name: 'Chuck', address: 'Main Road 989'},
-	    { _id: 14, name: 'Viola', address: 'Sideway 1633'}
-	  ];
-	  
-	  db.collection("customers").insertMany(myobj, function(err, res) {
-	    if (err) {
-	    	console.log("Error found while attempting to insert documents into the collection.")
-	    	throw err;
-	    }
-	    console.log("Number of documents inserted: " + res.insertedCount);
-	    db.close();
-	  });
+	 	mongodb.connect(mongoURL, function(err, db) {
+		    if (err) {
+		   	  console.log("Error al conectar con DB @ /create")
+		      callback(err);
+		      return;
+		    }
+
+		 	console.log("DB initialized. Attempting to create collection and insert data.");
+		    db.createCollection("customers", function(err, res) {
+		    if (err) {
+		    	console.log("Error found while attempting to create collection");
+		    	throw err;
+		    }
+		    console.log("Collection created!");
+		    db.close();
+		    });
+		    var myobj = [
+		    { _id: 1, name: 'John', address: 'Highway 71'},
+		    { _id: 2, name: 'Peter', address: 'Lowstreet 4'},
+		    { _id: 3, name: 'Amy', address: 'Apple st 652'},
+		    { _id: 4, name: 'Hannah', address: 'Mountain 21'},
+		    { _id: 5, name: 'Michael', address: 'Valley 345'},
+		    { _id: 6, name: 'Sandy', address: 'Ocean blvd 2'},
+		    { _id: 7, name: 'Betty', address: 'Green Grass 1'},
+		    { _id: 8, name: 'Richard', address: 'Sky st 331'},
+		    { _id: 9, name: 'Susan', address: 'One way 98'},
+		    { _id: 10, name: 'Vicky', address: 'Yellow Garden 2'},
+		    { _id: 11, name: 'Ben', address: 'Park Lane 38'},
+		    { _id: 12, name: 'William', address: 'Central st 954'},
+		    { _id: 13, name: 'Chuck', address: 'Main Road 989'},
+		    { _id: 14, name: 'Viola', address: 'Sideway 1633'}
+		  ];
+		  
+		  db.collection("customers").insertMany(myobj, function(err, res) {
+		    if (err) {
+		    	console.log("Error found while attempting to insert documents into the collection.")
+		    	throw err;
+		    }
+		    console.log("Number of documents inserted: " + res.insertedCount);
+		    db.close();
+		  });
+		}
     }
 });
 
@@ -193,19 +212,27 @@ app.get('/data', function(req, res){
 	}
     
     if (db) {
-     console.log("DB initialized. Attempting to get all data.");
- 	 db.collection("customers").find({}).toArray(function(err, result) {
-	  if (err) {
-	  	console.log("Error found while attempting to get all data."); 
-	  	throw err;
-	  }
+    	mongodb.connect(mongoURL, function(err, db) {
+		    if (err) {
+		   	  console.log("Error al conectar con DB @ data")
+		      callback(err);
+		      return;
+		    }
 
-	    console.log(result); // entrega json en consola que corre el servidor
-	    //res.json(JSON.stringify(result));  // entrega string del json encerrado por paréntesis cuadrádos [<json>], por ser un arreglo
-	    res.json(result); // Entrega arreglo con resultados en la consola del cliente
-	    //res.jsonp(result); //en este caso hace lo mismo que el anterior, falta leer documentación
-	    db.close();
-	 })
+	     console.log("DB initialized. Attempting to get all data.");
+	 	 db.collection("customers").find({}).toArray(function(err, result) {
+		  if (err) {
+		  	console.log("Error found while attempting to get all data."); 
+		  	throw err;
+		  }
+
+		    console.log(result); // entrega json en consola que corre el servidor
+		    //res.json(JSON.stringify(result));  // entrega string del json encerrado por paréntesis cuadrádos [<json>], por ser un arreglo
+		    res.json(result); // Entrega arreglo con resultados en la consola del cliente
+		    //res.jsonp(result); //en este caso hace lo mismo que el anterior, falta leer documentación
+		    db.close();
+		 })
+	 	}
     }
 });
 
@@ -228,17 +255,24 @@ app.post('/data', function(req, res){
     }
     
     if (db) {
-    console.log("DB initialized. Attempting to get a particular set of data.");  
-    db.collection("customers").findOne(body_data, function(err, result) {
-    if (err) {
-	 console.log("Error found while attempting to get a particular document.");
-     throw err;
-    }
-    console.log("Trying to find document...")
-    console.log(result); //Se imprime output en consola del servidor
-    res.json(result);    //Se imprime output en consola del cliente
-    db.close();
-    });
+    	mongodb.connect(mongoURL, function(err, db) {
+		    if (err) {
+		   	  console.log("Error al conectar con DB @ /data (POST)")
+		      callback(err);
+		      return;
+		    }
+		    console.log("DB initialized. Attempting to get a particular set of data.");  
+		    db.collection("customers").findOne(body_data, function(err, result) {
+		    if (err) {
+			 console.log("Error found while attempting to get a particular document.");
+		     throw err;
+		    }
+		    console.log("Trying to find document...")
+		    console.log(result); //Se imprime output en consola del servidor
+		    res.json(result);    //Se imprime output en consola del cliente
+		    db.close();
+		    });
+		}
 	}
 });  // fixed
 
