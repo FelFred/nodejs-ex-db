@@ -1,4 +1,4 @@
-//  OpenShift sample Node application
+//  OpenShif6t sample Node application
 var express = require('express'),
     app     = express();
 
@@ -8,6 +8,22 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
     mongoURLLabel = "";
+
+// Look at env
+var env_data = function () {
+	console.log("Port =" + port);
+	console.log("IP =" +  ip);
+	console.log("mongoURL =" + mongoURL);
+	console.log("\n\n Mongo data:\n")
+	console.log("mongoServiceName =" + mongoServiceName);
+	console.log("mongoHost =" + mongoHost);
+	console.log("mongoPort =" + mongoPort);
+	console.log("mongoDatabase =" + mongoDatabase);
+	console.log("mongoPassword =" + mongoPassword);
+	console.log("mongoUser =" + mongoUser);
+	console.log("\nmongoURLLabel =" + mongoURLLabel);
+	console.log("mongoURL =" + mongoURL);
+}
 
 // endpoints
 if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
@@ -89,10 +105,12 @@ app.get('/', function(req, res){
   */
 });
 
-console.log("Registering endpoint: /stubbed");
+console.log("Registering endpoint: /version");
 app.get('/stubbed', function(req, res){
-    res.send('hello STUBBED 4');
+    res.send('Version: 1.0');
+    // 1.0 =  1ra version modificada del día 09/01/2018
 });
+
 
 console.log("Registering endpoint: /jsonendpoint");
 app.get('/jsonendpoint', function(req, res){
@@ -101,6 +119,13 @@ app.get('/jsonendpoint', function(req, res){
         "testy" : "something", 
         "exnum" : 123
     });
+});
+
+console.log("Registering endpoint: /env");
+app.get('/stubbed', function(req, res){
+    res.send('Printing environment data...');
+
+    // 1.0 =  1ra version modificada del día 09/01/2018
 });
 
 console.log("Registering createcollection: /create");
@@ -193,7 +218,7 @@ app.post('/data', function(req, res){
     
     if (db) {
     console.log("DB initialized. Attempting to get a particular set of data.");  
-    dbase.collection("customers").findOne(body_data, function(err, result) {
+    db.collection("customers").findOne(body_data, function(err, result) {
     if (err) throw err;
     console.log("Trying to find document...")
     console.log(result); //Se imprime output en consola del servidor
@@ -215,3 +240,4 @@ app.listen(port, ip);
 console.log('Server running on http://%s:%s', ip, port);
 
 module.exports = app ;
+e
