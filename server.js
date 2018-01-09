@@ -3,6 +3,11 @@ var express = require('express'),
     app     = express();
     mongodb = require('mongodb');	
 
+var bodyParser = require('body-parser');
+
+// parse application/json
+app.use(bodyParser.json());
+
 Object.assign=require('object-assign');			
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
@@ -244,7 +249,7 @@ app.post('/data', function(req, res){
   var body_data = req.body;  //datos de la petición
   var headers_data = req.headers; //cabecera de la petición
   //Se imprimen cuerpo y cabecera en consola del servidor
-  console.log(req);
+  //console.log(req);
   console.log("Body data: " + req.body);
   console.log("Header data: " + req.headers); 
 
