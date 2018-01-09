@@ -136,6 +136,7 @@ app.get('/env', function(req, res){
 
 console.log("Registering db init: /init");
 app.get('/init', function(req, res){
+	res.send("Initializing database...");
 	// Inicializo conexión con db. Es decir, me conecto por primera vez y guardo los datos en objeto.
     initDb(function(err){});    
 });
