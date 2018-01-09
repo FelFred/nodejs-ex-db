@@ -28,7 +28,7 @@ var env_data = function () {
 	console.log("mongoURL =" + mongoURL);
 }
 
-// endpoints
+// Database info
 if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 	console.log("DATABASE_SERVICE_NAME IF!!!!!!!!!!!!!!!!!!!!!!!!!!");
   var mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
@@ -37,6 +37,7 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
       mongoDatabase = process.env[mongoServiceName + '_DATABASE'],
       mongoPassword = process.env[mongoServiceName + '_PASSWORD']
       mongoUser = process.env[mongoServiceName + '_USER'];
+
 
   if (mongoHost && mongoPort && mongoDatabase) {
     mongoURLLabel = mongoURL = 'mongodb://';
@@ -168,7 +169,10 @@ app.get('/create', function(req, res){
 	  ];
 	  
 	  db.collection("customers").insertMany(myobj, function(err, res) {
-	    if (err) throw err;
+	    if (err) {
+	    	console.log("Error found while attempting to insert documents into the collection.")
+	    	throw err;
+	    }
 	    console.log("Number of documents inserted: " + res.insertedCount);
 	    db.close();
 	  });
@@ -191,7 +195,11 @@ app.get('/data', function(req, res){
     if (db) {
      console.log("DB initialized. Attempting to get all data.");
  	 db.collection("customers").find({}).toArray(function(err, result) {
-	  if (err) throw err;
+	  if (err) {
+	  	console.log("Error found while attempting to get all data."); 
+	  	throw err;
+	  }
+
 	    console.log(result); // entrega json en consola que corre el servidor
 	    //res.json(JSON.stringify(result));  // entrega string del json encerrado por paréntesis cuadrádos [<json>], por ser un arreglo
 	    res.json(result); // Entrega arreglo con resultados en la consola del cliente
@@ -222,7 +230,10 @@ app.post('/data', function(req, res){
     if (db) {
     console.log("DB initialized. Attempting to get a particular set of data.");  
     db.collection("customers").findOne(body_data, function(err, result) {
-    if (err) throw err;
+    if (err) {
+	 console.log("Error found while attempting to get a particular document.");
+     throw err;
+    }
     console.log("Trying to find document...")
     console.log(result); //Se imprime output en consola del servidor
     res.json(result);    //Se imprime output en consola del cliente
