@@ -26,7 +26,6 @@ var env_data = function () {
 	console.log("mongoUser =" + mongoUser);
 	console.log("\nmongoURLLabel =" + mongoURLLabel);
 	console.log("mongoURL =" + mongoURL);
-	console.log("\n\nDATABASE_SERVICE_NAME =" + DATABASE_SERVICE_NAME);
 }
 
 // endpoints
