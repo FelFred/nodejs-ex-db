@@ -16,6 +16,7 @@ var env_data = function () {
 	console.log("\nPort =" + port);
 	console.log("IP =" +  ip);
 	console.log("mongoURL =" + mongoURL);
+	console.log("\n\nDATABASE_SERVICE_NAME =" + DATABASE_SERVICE_NAME);
 	console.log("\n\n Mongo data:\n")
 	console.log("mongoServiceName =" + mongoServiceName);
 	console.log("mongoHost =" + mongoHost);
@@ -25,10 +26,12 @@ var env_data = function () {
 	console.log("mongoUser =" + mongoUser);
 	console.log("\nmongoURLLabel =" + mongoURLLabel);
 	console.log("mongoURL =" + mongoURL);
+	console.log("\n\nDATABASE_SERVICE_NAME =" + DATABASE_SERVICE_NAME);
 }
 
 // endpoints
 if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
+	console.log("DATABASE_SERVICE_NAME IF!!!!!!!!!!!!!!!!!!!!!!!!!!");
   var mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
       mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
       mongoPort = process.env[mongoServiceName + '_SERVICE_PORT'],
