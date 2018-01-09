@@ -16,7 +16,7 @@ var env_data = function () {
 	console.log("\nPort =" + port);
 	console.log("IP =" +  ip);
 	console.log("mongoURL =" + mongoURL);
-	console.log("\n\nDATABASE_SERVICE_NAME =" + DATABASE_SERVICE_NAME);
+	console.log("\n\nDATABASE_SERVICE_NAME =" + process.env.DATABASE_SERVICE_NAME);
 	console.log("\n\n Mongo data:\n")
 	console.log("mongoServiceName =" + mongoServiceName);
 	console.log("mongoHost =" + mongoHost);
