@@ -1,6 +1,7 @@
 //  OpenShif6t sample Node application
 var express = require('express'),
     app     = express();
+    mongodb = require('mongodb');	
 
 Object.assign=require('object-assign');			
 
