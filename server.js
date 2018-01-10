@@ -198,6 +198,7 @@ app.get('/create', function(req, res){
 		    	if (err) {
 		    		console.log("Error found while attempting to insert documents into the collection.")
 		    		throw err;
+		    		res.send("Error found while attempting to insert documents into the collection.");
 		   		}
 		    	console.log("Number of documents inserted: " + res.insertedCount);
 		    	db.close();
@@ -231,6 +232,7 @@ app.get('/data', function(req, res){
 		  		if (err) {
 		  			console.log("Error found while attempting to get all data."); 
 		  			throw err;
+		  			res.send("Error found while attempting to get all data.");
 		  		}
 
 		    	console.log(result); // entrega json en consola que corre el servidor
@@ -273,7 +275,8 @@ app.post('/data', function(req, res){
 		    db.collection("customers").findOne(body_data, function(err, result) {
 		    	if (err) {
 			 		console.log("Error found while attempting to get a particular document.");
-		     	throw err;
+		     		throw err;
+		     		res.send("Error found while attempting to get a particular document.");
 		    	}
 		    	console.log("Trying to find document...")
 		    	console.log(result); //Se imprime output en consola del servidor
