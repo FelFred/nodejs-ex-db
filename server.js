@@ -169,7 +169,7 @@ app.get('/create', function(req, res){
 		      callback(err);
 		      return;
 		    }		 	
-		    db.createCollection("customers", function(err, res) {
+		    db.createCollection("customers", function(err, result) {
 		    	if (err) {
 		    		console.log("Error found while attempting to create collection");
 		    		throw err;
@@ -194,7 +194,7 @@ app.get('/create', function(req, res){
 		    { _id: 14, name: 'Viola', address: 'Sideway 1633'}
 		  ];
 		  
-		  	db.collection("customers").insertMany(myobj, function(err, res) {
+		  	db.collection("customers").insertMany(myobj, function(err, result) {
 		    	if (err) {
 		    		console.log("Error found while attempting to insert documents into the collection.")
 		    		//throw err;
