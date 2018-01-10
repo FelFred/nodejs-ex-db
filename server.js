@@ -92,8 +92,11 @@ var initDb = function(callback) {
 
 // endpoints
 app.get('/', function(req, res){
+	client_ip = req.ip;
 	console.log("Received GET request to ROOT (/)");
-    res.send('hello ROOT world. Bienvenido a la versión 1.3');
+	console.log("Client's IP = " + client_ip);
+    res.send('Hello ROOT world. Bienvenido a la versión 1.3.\n Su dirección IP es: '+ client_ip);    
+
     /*
    // try to initialize the db on every request if it's not already
   // initialized.
