@@ -95,7 +95,7 @@ app.get('/', function(req, res){
 	client_ip = req.ip;
 	console.log("Received GET request to ROOT (/)");
 	console.log("Client's IP = " + client_ip);
-    res.send('Hello ROOT world. Bienvenido a la versión 1.3.\n Su dirección IP es: '+ client_ip);    
+    res.send('Hello ROOT world. Bienvenido a la versión 1.3.\n \n Su dirección IP es: '+ client_ip);    
 
     /*
    // try to initialize the db on every request if it's not already
@@ -126,6 +126,12 @@ app.get('/version', function(req, res){
     // 1.0 =  1ra version modificada del día 09/01/2018
 });
 
+console.log("Registering endpoint: /reqinfo");
+app.get('/reqinfo', function(req, res){
+	console.log("Received GET request to /reqinfo");
+    res.send(req);
+    // 1.0 =  1ra version modificada del día 09/01/2018
+});
 
 console.log("Registering endpoint: /jsonendpoint");
 app.get('/jsonendpoint', function(req, res){
