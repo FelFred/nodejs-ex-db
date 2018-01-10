@@ -172,10 +172,10 @@ app.get('/create', function(req, res){
 		      callback(err);
 		      return;
 		    }		 	
-		    db.createCollection("customers", function(error, result) {
-		    	if (error) {
+		    db.createCollection("customers", function(op_error, result) {
+		    	if (op_error) {
 		    		console.log("Error found while attempting to create collection");
-		    		console.log(error);
+		    		console.log(op_error);
 		    		res.send("Error found while attempting to create collection");
 		    		//throw err;
 		   		}
@@ -199,11 +199,11 @@ app.get('/create', function(req, res){
 		    { _id: 14, name: 'Viola', address: 'Sideway 1633'}
 		  ];
 		  
-		  	db.collection("customers").insertMany(myobj, function(error, result) {
-		    	if (error) {
+		  	db.collection("customers").insertMany(myobj, function(op_error, result) {
+		    	if (op_error) {
 		    		console.log("Error found while attempting to insert documents into the collection.")
-		    		console.log(error);
-		    		res.send({message:"Error found while attempting to insert documents into the collection.", error: err.message});
+		    		console.log(op_error);
+		    		res.send({message:"Error found while attempting to insert documents into the collection.", error: op_error.message});
 		   			//throw err;
 		   		}
 		    	console.log("Number of documents inserted: " + res.insertedCount);
@@ -234,10 +234,10 @@ app.get('/data', function(req, res){
 		      return;
 		    }
 	     
-	 	 	db.collection("customers").find({}).toArray(function(error, result) {
-		  		if (error) {
+	 	 	db.collection("customers").find({}).toArray(function(op_error, result) {
+		  		if (op_error) {
 		  			console.log("Error found while attempting to get all data.");
-		  			console.log(error);		  			
+		  			console.log(op_error);		  			
 		  			res.send("Error found while attempting to get all data.");
 		  			//throw err;
 		  		}
@@ -279,10 +279,10 @@ app.post('/data', function(req, res){
 		      callback(err);
 		      return;
 		    }		      
-		    db.collection("customers").findOne(body_data, function(error, result) {
-		    	if (error) {
+		    db.collection("customers").findOne(body_data, function(op_error, result) {
+		    	if (op_error) {
 			 		console.log("Error found while attempting to get a particular document.");
-			 		console.log(error);
+			 		console.log(op_error);
 		     		res.send("Error found while attempting to get a particular document.");
 		    		//throw err;
 		    	}
