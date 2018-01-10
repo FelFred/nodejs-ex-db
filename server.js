@@ -197,7 +197,8 @@ app.get('/create', function(req, res){
 		  	db.collection("customers").insertMany(myobj, function(err, result) {
 		    	if (err) {
 		    		console.log("Error found while attempting to insert documents into the collection.")
-		    		throw err;
+		    		console.log(err);
+		    		//throw err;
 		    		res.send({message:"Error found while attempting to insert documents into the collection.", error: err.message});
 		   		}
 		    	console.log("Number of documents inserted: " + res.insertedCount);
@@ -231,7 +232,7 @@ app.get('/data', function(req, res){
 	 	 	db.collection("customers").find({}).toArray(function(err, result) {
 		  		if (err) {
 		  			console.log("Error found while attempting to get all data."); 
-		  			throw err;
+		  			//throw err;
 		  			res.send("Error found while attempting to get all data.");
 		  		}
 
@@ -275,7 +276,7 @@ app.post('/data', function(req, res){
 		    db.collection("customers").findOne(body_data, function(err, result) {
 		    	if (err) {
 			 		console.log("Error found while attempting to get a particular document.");
-		     		throw err;
+		     		//throw err;
 		     		res.send("Error found while attempting to get a particular document.");
 		    	}
 		    	console.log("Trying to find document...")
