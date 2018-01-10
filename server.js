@@ -129,7 +129,8 @@ app.get('/version', function(req, res){
 console.log("Registering endpoint: /reqinfo");
 app.get('/reqinfo', function(req, res){
 	console.log("Received GET request to /reqinfo");
-    res.send(req);
+	console.log(req);
+    res.send("Printing request info at server's console");
     // 1.0 =  1ra version modificada del día 09/01/2018
 });
 
