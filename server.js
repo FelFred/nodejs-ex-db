@@ -197,7 +197,7 @@ app.get('/create', function(req, res){
 		  	db.collection("customers").insertMany(myobj, function(err, result) {
 		    	if (err) {
 		    		console.log("Error found while attempting to insert documents into the collection.")
-		    		//throw err;
+		    		throw err;
 		    		res.send({message:"Error found while attempting to insert documents into the collection.", error: err.message});
 		   		}
 		    	console.log("Number of documents inserted: " + res.insertedCount);
