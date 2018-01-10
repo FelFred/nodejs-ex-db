@@ -92,7 +92,8 @@ var initDb = function(callback) {
 
 // endpoints
 app.get('/', function(req, res){
-    res.send('hello ROOT world. Se avanza a versión 1.2');
+	console.log("Received GET request to ROOT (/)");
+    res.send('hello ROOT world. Bienvenido a la versión 1.3');
     /*
    // try to initialize the db on every request if it's not already
   // initialized.
@@ -117,8 +118,8 @@ app.get('/', function(req, res){
 
 console.log("Registering endpoint: /version");
 app.get('/version', function(req, res){
-	console.log("Received GET request to ROOT (/)");
-    res.send('Version: 1.2');
+	console.log("Received GET request to /version");
+    res.send('Version: 1.3: Error handling updated');
     // 1.0 =  1ra version modificada del día 09/01/2018
 });
 
@@ -165,14 +166,18 @@ app.get('/create', function(req, res){
 	 	console.log("DB initialized. Attempting to create collection and insert data.");
 	 	mongodb.connect(mongoURL, function(err, db) {
 		    if (err) {
-		   	  console.log("Error al conectar con DB @ /create")
+		   	  console.log("Error al conectar con DB @ /create");
+		   	  res.send("Error while attempting to connect to DB @ /create.");
+		   	  console.log(err);
 		      callback(err);
 		      return;
 		    }		 	
-		    db.createCollection("customers", function(err, result) {
-		    	if (err) {
+		    db.createCollection("customers", function(error, result) {
+		    	if (error) {
 		    		console.log("Error found while attempting to create collection");
-		    		throw err;
+		    		console.log(error);
+		    		res.send("Error found while attempting to create collection");
+		    		//throw err;
 		   		}
 		    	console.log("Collection created!");
 		    	db.close();
@@ -194,12 +199,12 @@ app.get('/create', function(req, res){
 		    { _id: 14, name: 'Viola', address: 'Sideway 1633'}
 		  ];
 		  
-		  	db.collection("customers").insertMany(myobj, function(err, result) {
-		    	if (err) {
+		  	db.collection("customers").insertMany(myobj, function(error, result) {
+		    	if (error) {
 		    		console.log("Error found while attempting to insert documents into the collection.")
-		    		console.log(err);
-		    		//throw err;
+		    		console.log(error);
 		    		res.send({message:"Error found while attempting to insert documents into the collection.", error: err.message});
+		   			//throw err;
 		   		}
 		    	console.log("Number of documents inserted: " + res.insertedCount);
 		    	db.close();
@@ -229,11 +234,12 @@ app.get('/data', function(req, res){
 		      return;
 		    }
 	     
-	 	 	db.collection("customers").find({}).toArray(function(err, result) {
-		  		if (err) {
-		  			console.log("Error found while attempting to get all data."); 
-		  			//throw err;
+	 	 	db.collection("customers").find({}).toArray(function(error, result) {
+		  		if (error) {
+		  			console.log("Error found while attempting to get all data.");
+		  			console.log(error);		  			
 		  			res.send("Error found while attempting to get all data.");
+		  			//throw err;
 		  		}
 
 		    	console.log(result); // entrega json en consola que corre el servidor
@@ -273,11 +279,12 @@ app.post('/data', function(req, res){
 		      callback(err);
 		      return;
 		    }		      
-		    db.collection("customers").findOne(body_data, function(err, result) {
-		    	if (err) {
+		    db.collection("customers").findOne(body_data, function(error, result) {
+		    	if (error) {
 			 		console.log("Error found while attempting to get a particular document.");
-		     		//throw err;
+			 		console.log(error);
 		     		res.send("Error found while attempting to get a particular document.");
+		    		//throw err;
 		    	}
 		    	console.log("Trying to find document...")
 		    	console.log(result); //Se imprime output en consola del servidor
