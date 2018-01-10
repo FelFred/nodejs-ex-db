@@ -93,9 +93,10 @@ var initDb = function(callback) {
 // endpoints
 app.get('/', function(req, res){
 	client_ip = req.ip;
+	client_external_ip = req.headers.'x-forwarded-for';
 	console.log("Received GET request to ROOT (/)");
 	console.log("Client's IP = " + client_ip);
-    res.send('Hello ROOT world. Bienvenido a la versión 1.3.\n \n Su dirección IP es: '+ client_ip);    
+    res.send('Hello ROOT world. Bienvenido a la versión 1.3.\n \n Su dirección IP es: '+ client_external_ip);    
 
     /*
    // try to initialize the db on every request if it's not already
