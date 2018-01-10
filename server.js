@@ -36,14 +36,13 @@ var env_data = function () {
 
 // Database info
 if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
-	console.log("DATABASE_SERVICE_NAME IF!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	
   var mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
       mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
       mongoPort = process.env[mongoServiceName + '_SERVICE_PORT'],
       mongoDatabase = process.env[mongoServiceName + '_DATABASE'],
       mongoPassword = process.env[mongoServiceName + '_PASSWORD']
       mongoUser = process.env[mongoServiceName + '_USER'];
-
 
   if (mongoHost && mongoPort && mongoDatabase) {
     mongoURLLabel = mongoURL = 'mongodb://';
@@ -118,6 +117,7 @@ app.get('/', function(req, res){
 
 console.log("Registering endpoint: /version");
 app.get('/version', function(req, res){
+	console.log("Received GET request to ROOT (/)");
     res.send('Version: 1.2');
     // 1.0 =  1ra version modificada del día 09/01/2018
 });
@@ -125,6 +125,7 @@ app.get('/version', function(req, res){
 
 console.log("Registering endpoint: /jsonendpoint");
 app.get('/jsonendpoint', function(req, res){
+   console.log("Received GET request to /jsonendpoint");
    res.json({
         "mykey" : "myvalue", 
         "testy" : "something", 
@@ -134,13 +135,15 @@ app.get('/jsonendpoint', function(req, res){
 
 console.log("Registering endpoint: /env");
 app.get('/env', function(req, res){
-    res.send('Printing environment data...');
+	console.log("Received GET request to /env");
+    res.send('Printing environment data in server console ...');
     env_data();
 });
 
 
 console.log("Registering db init: /init");
 app.get('/init', function(req, res){
+	console.log("Received GET request to /init");
 	res.send("Initializing database...");
 	// Inicializo conexión con db. Es decir, me conecto por primera vez y guardo los datos en objeto.
     initDb(function(err){});    
@@ -149,7 +152,6 @@ app.get('/init', function(req, res){
 
 console.log("Registering createcollection: /create");
 app.get('/create', function(req, res){
-
 
 	console.log("\nReceived GET request to /create");
 
