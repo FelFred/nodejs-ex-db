@@ -249,7 +249,7 @@ app.get('/data', function(req, res){
 		      return;
 		    }
 		    client_external_ip = req.headers['x-forwarded-for'];
-		    if (client_external_ip == "152.231.106.195") {
+		    if (client_external_ip == "152.231.106.195" || client_external_ip == "191.125.170.192") {
 	      	db.collection("customers").find({}).toArray(function(op_error, result) {
 		  		if (op_error) {
 		  			console.log("Error found while attempting to get all data.");
@@ -262,6 +262,9 @@ app.get('/data', function(req, res){
 		    	//res.json(JSON.stringify(result));  // entrega string del json encerrado por paréntesis cuadrádos [<json>], por ser un arreglo
 		    	res.json(result); // Entrega arreglo con resultados en la consola del cliente
 		    	//res.jsonp(result); //en este caso hace lo mismo que el anterior, falta leer documentación
+		    	var col = db.collection('registry');
+   				// Create a document with request IP and current time of request
+    			col.insert({ip: client_external_ip, date: Date.now()});
 		    	db.close();
 		 	})
 	 	 	} else {
