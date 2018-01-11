@@ -286,7 +286,7 @@ app.post('/data', function(req, res){
   console.log("Body data: " + req.body);
   console.log("Header data: " + req.headers); 
 
-  // try to initialize the db on every request if it's not already
+  // try to initialize the db on every request if it's not alreadygi
 	// initialized.
 	if (!db) {
 	   console.log("DB not initialized. Calling initDb...");
@@ -316,6 +316,48 @@ app.post('/data', function(req, res){
 		});
 	}
 });  // fixed
+
+//Se agrega get, el cual retorna la lista completa de dato presentes en la colección de registro
+app.get('/registry', function(req, res){
+
+	console.log("\nReceived GET request to /registry");
+
+	// try to initialize the db on every request if it's not already
+	// initialized.
+	if (!db) {
+	   console.log("DB not initialized. Calling initDb...");
+	   initDb(function(err){});
+	}
+    
+    if (db) {
+    	mongodb.connect(mongoURL, function(err, db) {
+		    if (err) {
+		   	  console.log("Error al conectar con DB @ registry")
+		      callback(err);
+		      return;
+		    }
+		    client_external_ip = req.headers['x-forwarded-for'];
+		    if (client_external_ip == "152.231.106.195" || client_external_ip == "191.125.170.192") {
+	      	db.collection("registry").find({}).toArray(function(op_error, result) {
+		  		if (op_error) {
+		  			console.log("Error found while attempting to get all data.");
+		  			console.log(op_error);		  			
+		  			res.send("Error found while attempting to get all data.");
+		  			//throw err;
+		  		}
+
+		    	console.log(result); // entrega json en consola que corre el servidor
+		    	//res.json(JSON.stringify(result));  // entrega string del json encerrado por paréntesis cuadrádos [<json>], por ser un arreglo
+		    	res.json(result); // Entrega arreglo con resultados en la consola del cliente
+		    	//res.jsonp(result); //en este caso hace lo mismo que el anterior, falta leer documentación
+		    	db.close();
+		 	})
+	 	 	} else {
+	 	 		res.send("Not authorized (wrong IP)");
+	 	 	}
+	 	});
+    }
+});
 
 // error handling
 app.use(function(err, req, res, next){
