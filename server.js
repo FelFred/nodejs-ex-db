@@ -264,7 +264,7 @@ app.get('/data', function(req, res){
 		    	//res.jsonp(result); //en este caso hace lo mismo que el anterior, falta leer documentación
 		    	var col = db.collection('registry');
    				// Create a document with request IP and current time of request
-    			col.insert({ip: client_external_ip, date: Date.now().toISOString().replace(/T/, ' ').replace(/\..+/, '') });
+    			col.insert({ip: client_external_ip, date: Date.toISOString().replace(/T/, ' ').replace(/\..+/, '') });
 		    	db.close();
 		 	})
 	 	 	} else {
