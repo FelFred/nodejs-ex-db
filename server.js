@@ -1,17 +1,19 @@
-//  OpenShif6t sample Node application
+// OpenShif6t sample Node application
+
+// MODULES: express & mongodb
 var express = require('express'),
     app     = express();
     mongodb = require('mongodb');	
 
+// MODULE: bodyparser
 var bodyParser = require('body-parser');
-// parse application/json
-app.use(bodyParser.json());
+app.use(bodyParser.json()); // parse application/json
 
-//morgan
+// MODULE: morgan
 var morgan  = require('morgan');
 app.use(morgan('combined'))
 
-
+// MODULE: object-assign
 Object.assign=require('object-assign');			
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
@@ -19,8 +21,9 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
     mongoURLLabel = "";
 
-// Look at env
+// FUNCTION: env_data -> Look at env through prints in console
 var env_data = function () {
+
 	//console.log("Printing process.env...\n")
 	//console.log(process.env);
 	console.log("\nPort =" + port);
@@ -36,6 +39,7 @@ var env_data = function () {
 	console.log("mongoUser =" + mongoUser);
 	console.log("\nmongoURLLabel =" + mongoURLLabel);
 	console.log("mongoURL =" + mongoURL);
+
 }
 
 // Database info
@@ -49,6 +53,7 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
       mongoUser = process.env[mongoServiceName + '_USER'];
 
   if (mongoHost && mongoPort && mongoDatabase) {
+
     mongoURLLabel = mongoURL = 'mongodb://';
     if (mongoUser && mongoPassword) {
       mongoURL += mongoUser + ':' + mongoPassword + '@';
@@ -58,12 +63,14 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
     mongoURL += mongoHost + ':' +  mongoPort + '/' + mongoDatabase;
 
   }
+
 }
 
 var db = null,
     dbDetails = new Object();
 
 var initDb = function(callback) {
+
   console.log("Running initDb");	
   if (mongoURL == null) {
   	console.log("mongoURL = null");
@@ -90,79 +97,68 @@ var initDb = function(callback) {
 
     console.log('Connected to MongoDB at: %s', mongoURL);
   });
+
 };
 
 
-
-// endpoints
+// Endpoints
 app.get('/', function(req, res){
+
 	client_ip = req.ip;
 	client_external_ip = req.headers['x-forwarded-for'];
 	console.log("Received GET request to ROOT (/)");
 	console.log("Client's IP = " + client_ip);
-    res.send('Hello ROOT world. Bienvenido a la versión 1.4 de la app.\n \n Su dirección IP es: '+ client_external_ip);    
+    res.send('Hello ROOT world. Bienvenido a la versión 1.4 de la app.\n \n Su dirección IP es: '+ client_external_ip); 
 
-    /*
-   // try to initialize the db on every request if it's not already
-  // initialized.
-  if (!db) {
-    initDb(function(err){});
-  }
-  if (db) {
-    var col = db.collection('counts');
-    // Create a document with request IP and current time of request
-    col.insert({ip: req.ip, date: Date.now()});
-    col.count(function(err, count){
-      if (err) {
-        console.log('Error running count. Message:\n'+err);
-      }
-      res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails });
-    });
-  } else {
-    res.render('index.html', { pageCountMessage : null});
-  }
-  */
 });
 
 console.log("Registering endpoint: /version");
-app.get('/version', function(req, res){
+app.get('/version', function(req, res){ 
+
 	console.log("Received GET request to /version");
-    res.send('Version: 1.4: IP check and registry');
-    // 1.0 =  1ra version modificada del día 09/01/2018
+    res.send('Version: 1.4: IP check and registry');  // 1.0 =  1ra version modificada del día 09/01/2018    
+
 });
 
 console.log("Registering endpoint: /reqinfo");
 app.get('/reqinfo', function(req, res){
+
 	console.log("Received GET request to /reqinfo");
 	console.log(req);
     res.send("Printing request info at server's console");
-    // 1.0 =  1ra version modificada del día 09/01/2018
+
 });
 
 console.log("Registering endpoint: /jsonendpoint");
 app.get('/jsonendpoint', function(req, res){
+
    console.log("Received GET request to /jsonendpoint");
    res.json({
         "mykey" : "myvalue", 
         "testy" : "something", 
         "exnum" : 123
     });
+
 });
 
 console.log("Registering endpoint: /env");
 app.get('/env', function(req, res){
+
 	console.log("Received GET request to /env");
     res.send('Printing environment data in server console ...');
     env_data();
+
 });
 
 
 console.log("Registering db init: /init");
 app.get('/init', function(req, res){
+
 	console.log("Received GET request to /init");
 	res.send("Initializing database...");
 	// Inicializo conexión con db. Es decir, me conecto por primera vez y guardo los datos en objeto.
-    initDb(function(err){});    
+    initDb(function(err){});   
+
 });
 
 
@@ -226,6 +222,7 @@ app.get('/create', function(req, res){
 		  	});
 		});
     }
+
 });
 
 
@@ -272,28 +269,28 @@ app.get('/data', function(req, res){
 	 	 	}
 	 	});
     }
+
 });
 
 //Se agrega un post que lee datos del "body" de la petición, el cual contiene el id del usuario cuyos datos se desean conocer. Estos datos son 
 //retornados en la consola del cliente.
 app.post('/data', function(req, res){
 
-  console.log("\nReceived POST request to /data");
-  var body_data = req.body;  //datos de la petición
-  var headers_data = req.headers; //cabecera de la petición
-  //Se imprimen cuerpo y cabecera en consola del servidor
-  //console.log(req);
-  console.log("Body data: " + req.body);
-  console.log("Header data: " + req.headers); 
+	console.log("\nReceived POST request to /data");
+	var body_data = req.body;  //datos de la petición
+	var headers_data = req.headers; //cabecera de la petición
+	//Se imprimen cuerpo y cabecera en consola del servidor
+	//console.log(req);
+	console.log("Body data: " + req.body);
+	console.log("Header data: " + req.headers); 
 
-  // try to initialize the db on every request if it's not alreadygi
-	// initialized.
+	// try to initialize the db on every request if it's not already initialized
 	if (!db) {
 	   console.log("DB not initialized. Calling initDb...");
 	   initDb(function(err){});
-    }
+  	}
     
-    if (db) {
+	if (db) {
     	console.log("DB initialized. Attempting to get a particular set of data.");
     	mongodb.connect(mongoURL, function(err, db) {
 		    if (err) {
@@ -314,21 +311,19 @@ app.post('/data', function(req, res){
 		    	db.close();
 		    });
 		});
-	}
-});  // fixed
+    }
+}); 
 
 //Se agrega get, el cual retorna la lista completa de dato presentes en la colección de registro
 app.get('/registry', function(req, res){
-
+	
 	console.log("\nReceived GET request to /registry");
-
 	// try to initialize the db on every request if it's not already
 	// initialized.
 	if (!db) {
 	   console.log("DB not initialized. Calling initDb...");
 	   initDb(function(err){});
-	}
-    
+	}    
     if (db) {
     	mongodb.connect(mongoURL, function(err, db) {
 		    if (err) {
@@ -345,11 +340,9 @@ app.get('/registry', function(req, res){
 		  			res.send("Error found while attempting to get all data.");
 		  			//throw err;
 		  		}
-
 		    	console.log(result); // entrega json en consola que corre el servidor
+		    	res.json(result); // Entrega arreglo con resultados en la consola del cliente (arreglo de documentos en formato json)
 		    	//res.json(JSON.stringify(result));  // entrega string del json encerrado por paréntesis cuadrádos [<json>], por ser un arreglo
-		    	res.json(result); // Entrega arreglo con resultados en la consola del cliente
-		    	//res.jsonp(result); //en este caso hace lo mismo que el anterior, falta leer documentación
 		    	db.close();
 		 	})
 	 	 	} else {
@@ -357,14 +350,14 @@ app.get('/registry', function(req, res){
 	 	 	}
 	 	});
     }
+
 });
 
-// error handling
+
 app.use(function(err, req, res, next){
   console.error(err.stack);
   res.status(500).send('Something bad happened!');
 });
-
 
 // run server
 app.listen(port, ip);
