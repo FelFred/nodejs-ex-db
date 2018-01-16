@@ -231,7 +231,7 @@ app.get('/data', function(req, res){
 	      return;
 	    }
 	    client_external_ip = req.headers['x-forwarded-for'];
-	    if (client_external_ip == "152.231.106.195" || client_external_ip == "191.125.173.182") {
+	    if (client_external_ip == "152.231.106.195" || client_external_ip == "191.126.173.182") {
       	db.collection("customers").find({}).toArray(function(op_error, result) {
 	  		if (op_error) {
 	  			console.log("Error found while attempting to get all data.");
@@ -300,7 +300,7 @@ app.post('/data', function(req, res){
 app.get('/registry', function(req, res){
 
 	console.log("\nReceived GET request to /registry");
-	
+
 	console.log("Attempting to connect to mongodb...");
 	mongodb.connect(mongoURL, function(err, db) {
 
@@ -310,7 +310,7 @@ app.get('/registry', function(req, res){
 	      return;
 	    }
 	    client_external_ip = req.headers['x-forwarded-for'];
-	    if (client_external_ip == "152.231.106.195" || client_external_ip == "191.125.173.182") {
+	    if (client_external_ip == "152.231.106.195" || client_external_ip == "191.126.173.182") {
       	db.collection("registry").find({}).toArray(function(op_error, result) {
 	  		if (op_error) {
 	  			console.log("Error found while attempting to get all data.");
