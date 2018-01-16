@@ -246,7 +246,7 @@ app.get('/data', function(req, res){
 		      return;
 		    }
 		    client_external_ip = req.headers['x-forwarded-for'];
-		    if (client_external_ip == "152.231.106.195" || client_external_ip == "191.125.170.192") {
+		    if (client_external_ip == "152.231.106.195" || client_external_ip == "191.125.173.182") {
 	      	db.collection("customers").find({}).toArray(function(op_error, result) {
 		  		if (op_error) {
 		  			console.log("Error found while attempting to get all data.");
@@ -316,7 +316,7 @@ app.post('/data', function(req, res){
 
 //Se agrega get, el cual retorna la lista completa de dato presentes en la colección de registro
 app.get('/registry', function(req, res){
-	
+
 	console.log("\nReceived GET request to /registry");
 	// try to initialize the db on every request if it's not already
 	// initialized.
@@ -332,7 +332,7 @@ app.get('/registry', function(req, res){
 		      return;
 		    }
 		    client_external_ip = req.headers['x-forwarded-for'];
-		    if (client_external_ip == "152.231.106.195" || client_external_ip == "191.125.170.192") {
+		    if (client_external_ip == "152.231.106.195" || client_external_ip == "191.125.173.182") {
 	      	db.collection("registry").find({}).toArray(function(op_error, result) {
 		  		if (op_error) {
 		  			console.log("Error found while attempting to get all data.");
