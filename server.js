@@ -166,63 +166,54 @@ console.log("Registering createcollection: /create");
 app.get('/create', function(req, res){
 
 	console.log("\nReceived GET request to /create");
-
-	 // try to initialize the db on every request if it's not already
-	 // initialized.
-	 if (!db) {
-	 	console.log("DB not initialized. Calling initDb...");
-	   initDb(function(err){});
-	 }
-	 if (db) {
-	 	console.log("DB initialized. Attempting to create collection and insert data.");
-	 	mongodb.connect(mongoURL, function(err, db) {
-		    if (err) {
-		   	  console.log("Error al conectar con DB @ /create");
-		   	  res.send("Error while attempting to connect to DB @ /create.");
-		   	  console.log(err);
-		      callback(err);
-		      return;
-		    }		 	
-		    db.createCollection("customers", function(op_error, result) {
-		    	if (op_error) {
-		    		console.log("Error found while attempting to create collection");
-		    		console.log(op_error);
-		    		res.send("Error found while attempting to create collection");
-		    		//throw err;
-		   		}
-		    	console.log("Collection created!");
-		    	db.close();
-		    });
-		    var myobj = [
-		    { _id: 1, name: 'John', address: 'Highway 71'},
-		    { _id: 2, name: 'Peter', address: 'Lowstreet 4'},
-		    { _id: 3, name: 'Amy', address: 'Apple st 652'},
-		    { _id: 4, name: 'Hannah', address: 'Mountain 21'},
-		    { _id: 5, name: 'Michael', address: 'Valley 345'},
-		    { _id: 6, name: 'Sandy', address: 'Ocean blvd 2'},
-		    { _id: 7, name: 'Betty', address: 'Green Grass 1'},
-		    { _id: 8, name: 'Richard', address: 'Sky st 331'},
-		    { _id: 9, name: 'Susan', address: 'One way 98'},
-		    { _id: 10, name: 'Vicky', address: 'Yellow Garden 2'},
-		    { _id: 11, name: 'Ben', address: 'Park Lane 38'},
-		    { _id: 12, name: 'William', address: 'Central st 954'},
-		    { _id: 13, name: 'Chuck', address: 'Main Road 989'},
-		    { _id: 14, name: 'Viola', address: 'Sideway 1633'}
-		  ];
-		  
-		  	db.collection("customers").insertMany(myobj, function(op_error, result) {
-		    	if (op_error) {
-		    		console.log("Error found while attempting to insert documents into the collection.")
-		    		console.log(op_error);
-		    		res.send({message:"Error found while attempting to insert documents into the collection.", error: op_error.message});
-		   			//throw err;
-		   		}
-		    	console.log("Number of documents inserted: " + res.insertedCount);
-		    	db.close();
-		  	});
-		});
-    }
-
+	console.log("Attempting to connect to mongodb...");
+ 	mongodb.connect(mongoURL, function(err, db) {
+	    if (err) {
+	   	  console.log("Error al conectar con DB @ /create");
+	   	  res.send("Error while attempting to connect to DB @ /create.");
+	   	  console.log(err);
+	      callback(err);
+	      return;
+	    }		 	
+	    db.createCollection("customers", function(op_error, result) {
+	    	if (op_error) {
+	    		console.log("Error found while attempting to create collection");
+	    		console.log(op_error);
+	    		res.send("Error found while attempting to create collection");
+	    		//throw err;
+	   		}
+	    	console.log("Collection created!");
+	    	db.close();
+	    });
+	    var myobj = [
+	    { _id: 1, name: 'John', address: 'Highway 71'},
+	    { _id: 2, name: 'Peter', address: 'Lowstreet 4'},
+	    { _id: 3, name: 'Amy', address: 'Apple st 652'},
+	    { _id: 4, name: 'Hannah', address: 'Mountain 21'},
+	    { _id: 5, name: 'Michael', address: 'Valley 345'},
+	    { _id: 6, name: 'Sandy', address: 'Ocean blvd 2'},
+	    { _id: 7, name: 'Betty', address: 'Green Grass 1'},
+	    { _id: 8, name: 'Richard', address: 'Sky st 331'},
+	    { _id: 9, name: 'Susan', address: 'One way 98'},
+	    { _id: 10, name: 'Vicky', address: 'Yellow Garden 2'},
+	    { _id: 11, name: 'Ben', address: 'Park Lane 38'},
+	    { _id: 12, name: 'William', address: 'Central st 954'},
+	    { _id: 13, name: 'Chuck', address: 'Main Road 989'},
+	    { _id: 14, name: 'Viola', address: 'Sideway 1633'}
+	  ];
+	  
+	  	db.collection("customers").insertMany(myobj, function(op_error, result) {
+	    	if (op_error) {
+	    		console.log("Error found while attempting to insert documents into the collection.")
+	    		console.log(op_error);
+	    		res.send({message:"Error found while attempting to insert documents into the collection.", error: op_error.message});
+	   			//throw err;
+	   		}
+	    	console.log("Number of documents inserted: " + res.insertedCount);
+	    	db.close();
+	  	});
+	});
+    
 });
 
 
@@ -231,44 +222,39 @@ app.get('/data', function(req, res){
 
 	console.log("\nReceived GET request to /data");
 
-	// try to initialize the db on every request if it's not already
-	// initialized.
-	if (!db) {
-	   console.log("DB not initialized. Calling initDb...");
-	   initDb(function(err){});
-	}
-    
-    if (db) {
-    	mongodb.connect(mongoURL, function(err, db) {
-		    if (err) {
-		   	  console.log("Error al conectar con DB @ data")
-		      callback(err);
-		      return;
-		    }
-		    client_external_ip = req.headers['x-forwarded-for'];
-		    if (client_external_ip == "152.231.106.195" || client_external_ip == "191.125.173.182") {
-	      	db.collection("customers").find({}).toArray(function(op_error, result) {
-		  		if (op_error) {
-		  			console.log("Error found while attempting to get all data.");
-		  			console.log(op_error);		  			
-		  			res.send("Error found while attempting to get all data.");
-		  			//throw err;
-		  		}
+	console.log("Attempting to connect to mongodb...")    
+    mongodb.connect(mongoURL, function(err, db) {
 
-		    	console.log(result); // entrega json en consola que corre el servidor
-		    	//res.json(JSON.stringify(result));  // entrega string del json encerrado por paréntesis cuadrádos [<json>], por ser un arreglo
-		    	res.json(result); // Entrega arreglo con resultados en la consola del cliente
-		    	//res.jsonp(result); //en este caso hace lo mismo que el anterior, falta leer documentación
-		    	var col = db.collection('registry');
-   				// Create a document with request IP and current time of request
-    			col.insert({ip: client_external_ip, date: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') });
-		    	db.close();
-		 	})
-	 	 	} else {
-	 	 		res.send("Not authorized (wrong IP)");
-	 	 	}
-	 	});
-    }
+	    if (err) {
+	   	  console.log("Error al conectar con DB @ data")
+	      callback(err);
+	      return;
+	    }
+	    client_external_ip = req.headers['x-forwarded-for'];
+	    if (client_external_ip == "152.231.106.195" || client_external_ip == "191.125.173.182") {
+      	db.collection("customers").find({}).toArray(function(op_error, result) {
+	  		if (op_error) {
+	  			console.log("Error found while attempting to get all data.");
+	  			console.log(op_error);		  			
+	  			res.send("Error found while attempting to get all data.");
+	  			//throw err;
+	  		}
+
+	    	console.log(result); // entrega json en consola que corre el servidor
+	    	//res.json(JSON.stringify(result));  // entrega string del json encerrado por paréntesis cuadrádos [<json>], por ser un arreglo
+	    	res.json(result); // Entrega arreglo con resultados en la consola del cliente
+	    	//res.jsonp(result); //en este caso hace lo mismo que el anterior, falta leer documentación
+	    	var col = db.collection('registry');
+				// Create a document with request IP and current time of request
+			col.insert({ip: client_external_ip, date: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') });
+	    	db.close();
+	 	})
+ 	 	} else {
+ 	 		res.send("Not authorized (wrong IP)");
+ 	 	}
+
+ 	});
+    
 
 });
 
@@ -284,72 +270,65 @@ app.post('/data', function(req, res){
 	console.log("Body data: " + req.body);
 	console.log("Header data: " + req.headers); 
 
-	// try to initialize the db on every request if it's not already initialized
-	if (!db) {
-	   console.log("DB not initialized. Calling initDb...");
-	   initDb(function(err){});
-  	}
+
+	console.log("Attempting to connect to mongodb...");	
+	mongodb.connect(mongoURL, function(err, db) {
+
+	    if (err) {
+	   	  console.log("Error al conectar con DB @ /data (POST)")
+	      callback(err);
+	      return;
+	    }		      
+	    db.collection("customers").findOne(body_data, function(op_error, result) {
+	    	if (op_error) {
+		 		console.log("Error found while attempting to get a particular document.");
+		 		console.log(op_error);
+	     		res.send("Error found while attempting to get a particular document.");
+	    		//throw err;
+	    	}
+	    	console.log("Trying to find document...")
+	    	console.log(result); //Se imprime output en consola del servidor
+	    	res.json(result);    //Se imprime output en consola del cliente
+	    	db.close();
+	    });
+
+	});
     
-	if (db) {
-    	console.log("DB initialized. Attempting to get a particular set of data.");
-    	mongodb.connect(mongoURL, function(err, db) {
-		    if (err) {
-		   	  console.log("Error al conectar con DB @ /data (POST)")
-		      callback(err);
-		      return;
-		    }		      
-		    db.collection("customers").findOne(body_data, function(op_error, result) {
-		    	if (op_error) {
-			 		console.log("Error found while attempting to get a particular document.");
-			 		console.log(op_error);
-		     		res.send("Error found while attempting to get a particular document.");
-		    		//throw err;
-		    	}
-		    	console.log("Trying to find document...")
-		    	console.log(result); //Se imprime output en consola del servidor
-		    	res.json(result);    //Se imprime output en consola del cliente
-		    	db.close();
-		    });
-		});
-    }
 }); 
 
 //Se agrega get, el cual retorna la lista completa de dato presentes en la colección de registro
 app.get('/registry', function(req, res){
 
 	console.log("\nReceived GET request to /registry");
-	// try to initialize the db on every request if it's not already
-	// initialized.
-	if (!db) {
-	   console.log("DB not initialized. Calling initDb...");
-	   initDb(function(err){});
-	}    
-    if (db) {
-    	mongodb.connect(mongoURL, function(err, db) {
-		    if (err) {
-		   	  console.log("Error al conectar con DB @ registry")
-		      callback(err);
-		      return;
-		    }
-		    client_external_ip = req.headers['x-forwarded-for'];
-		    if (client_external_ip == "152.231.106.195" || client_external_ip == "191.125.173.182") {
-	      	db.collection("registry").find({}).toArray(function(op_error, result) {
-		  		if (op_error) {
-		  			console.log("Error found while attempting to get all data.");
-		  			console.log(op_error);		  			
-		  			res.send("Error found while attempting to get all data.");
-		  			//throw err;
-		  		}
-		    	console.log(result); // entrega json en consola que corre el servidor
-		    	res.json(result); // Entrega arreglo con resultados en la consola del cliente (arreglo de documentos en formato json)
-		    	//res.json(JSON.stringify(result));  // entrega string del json encerrado por paréntesis cuadrádos [<json>], por ser un arreglo
-		    	db.close();
-		 	})
-	 	 	} else {
-	 	 		res.send("Not authorized (wrong IP)");
-	 	 	}
-	 	});
-    }
+	
+	console.log("Attempting to connect to mongodb...");
+	mongodb.connect(mongoURL, function(err, db) {
+
+	    if (err) {
+	   	  console.log("Error al conectar con DB @ registry")
+	      callback(err);
+	      return;
+	    }
+	    client_external_ip = req.headers['x-forwarded-for'];
+	    if (client_external_ip == "152.231.106.195" || client_external_ip == "191.125.173.182") {
+      	db.collection("registry").find({}).toArray(function(op_error, result) {
+	  		if (op_error) {
+	  			console.log("Error found while attempting to get all data.");
+	  			console.log(op_error);		  			
+	  			res.send("Error found while attempting to get all data.");
+	  			//throw err;
+	  		}
+	    	console.log(result); // entrega json en consola que corre el servidor
+	    	res.json(result); // Entrega arreglo con resultados en la consola del cliente (arreglo de documentos en formato json)
+	    	//res.json(JSON.stringify(result));  // entrega string del json encerrado por paréntesis cuadrádos [<json>], por ser un arreglo
+	    	db.close();
+	 	})
+ 	 	} else {
+ 	 		res.send("Not authorized (wrong IP)");
+ 	 	}
+
+ 	});
+    
 
 });
 
