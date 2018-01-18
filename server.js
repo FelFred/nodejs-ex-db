@@ -276,9 +276,9 @@ app.get('/data', function(req, res){
 		    console.log(result);
 		    res.json(result);
 	    });
-		    var sql = "INSERT INTO registry (name, address) VALUES ?";
-		    var values = [
-	    	[client_external_ip, new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') ]
+	    var sql = "INSERT INTO registry (name, address) VALUES ?";
+	    var values = [
+    	[client_external_ip, new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') ]
 	    	];
 
 		con.query(sql, [values], function (op_error, result) {
@@ -321,14 +321,16 @@ app.post('/data', function(req, res){
   		}
   		user_name = body_data.name;
 	  	con.query("SELECT * FROM customers WHERE name= ?",[user_name], function (op_error, result, fields) {
-	    if (op_error) {
-	    	console.log("Error found while attempting to get a particular record.");
-  			console.log(op_error);		  			
-  			res.send("Error found while attempting to get a particular record.");
-        	//throw err;
-	    }	    
-	    console.log(result);
-	    res.json(result);
+		    if (op_error) {
+		    	console.log("Error found while attempting to get a particular record.");
+	  			console.log(op_error);		  			
+	  			res.send("Error found while attempting to get a particular record.");
+	        	//throw err;
+		    }	    
+		    console.log(result);
+		    res.json(result);
+	    });
+
 	    var sql = "INSERT INTO customers (name, address) VALUES ?";
 	    var values = [
     	[client_external_ip, new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') ]
@@ -343,7 +345,7 @@ app.post('/data', function(req, res){
 		    console.log("Date record inserted into registry");
 		});
 
-	  });
+	  	
 	});
     
 }); 
