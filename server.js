@@ -71,11 +71,11 @@ if (mariaURL == null && process.env.DATABASE_SERVICE_NAME) {
 
 //Crear variable de conexion
 var con = mysql.createConnection( {
-	host : ip,
+	hostname : mariaHost,
 	user: mariaUser,
 	password: mariaPassword,
 	database: mariaDatabase,
-	port: port
+	port: mariaport
 });
 /*
 var db = null,
