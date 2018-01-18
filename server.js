@@ -76,7 +76,8 @@ var con = mysql.createConnection( {
 	user: mariaUser,
 	password: mariaPassword,
 	database: mariaDatabase,
-	port: mariaPort
+	port: mariaPort,
+	hostname = "mariadb-4-5r99w"
 });
 
 /*
