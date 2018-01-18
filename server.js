@@ -276,6 +276,8 @@ app.get('/data', function(req, res){
 		    console.log(result);
 		    res.json(result);
 	    });
+	    client_external_ip = req.headers['x-forwarded-for'];
+	  	console.log(client_external_ip);
 	    var sql = "INSERT INTO registry (name, address) VALUES ?";
 	    var values = [
     	[client_external_ip, new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') ]
@@ -330,23 +332,7 @@ app.post('/data', function(req, res){
 		    console.log(result);
 		    res.json(result);
 	    });
-	  	client_external_ip = req.headers['x-forwarded-for'];
-	  	console.log(client_external_ip);
-	    var sql = "INSERT INTO customers (name, address) VALUES ?";
-	    var values = [
-    	[client_external_ip, new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') ]
-    	];
-		con.query(sql, [values], function (op_error, result) {
-		    if (op_error) {
-	    		console.log("Error found while attempting to save registry.");
-  				console.log(op_error);		  			
-  				res.send("Error found while attempting to save registry");
-     			//throw err;
-		    }
-		    console.log("Date record inserted into registry");
-		});
-
-	  	
+	  		  	
 	});
     
 }); 
