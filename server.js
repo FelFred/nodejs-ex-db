@@ -212,7 +212,7 @@ app.get('/create', function(req, res){
 	    		res.send("Error found while attempting to create table: registry");
 	    		//throw err;
 	    	}
-	    	console.log("Table 'customers' created");
+	    	console.log("Table 'registry' created");
 	  	});
 
 
@@ -276,7 +276,7 @@ app.get('/data', function(req, res){
 		    console.log(result);
 		    res.json(result);
 	    });
-		    var sql = "INSERT INTO customers (name, address) VALUES ?";
+		    var sql = "INSERT INTO registry (name, address) VALUES ?";
 		    var values = [
 	    	[client_external_ip, new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') ]
 	    	];
