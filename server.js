@@ -43,6 +43,8 @@ var env_data = function () {
 	console.log("\nmariaURLLabel =" + mariaURLLabel);
 	console.log("mariaURL =" + mariaURL);
 
+	console.log(con);
+
 }
 
 // Database info
@@ -77,6 +79,7 @@ var con = mysql.createConnection( {
 	database: mariaDatabase,
 	port: mariaPort
 });
+
 /*
 var db = null,
     dbDetails = new Object();
