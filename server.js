@@ -331,6 +331,7 @@ app.post('/data', function(req, res){
 		    res.json(result);
 	    });
 	  	client_external_ip = req.headers['x-forwarded-for'];
+	  	console.log(client_external_ip);
 	    var sql = "INSERT INTO customers (name, address) VALUES ?";
 	    var values = [
     	[client_external_ip, new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') ]
