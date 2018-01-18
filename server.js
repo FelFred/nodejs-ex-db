@@ -183,9 +183,9 @@ app.get('/create', function(req, res){
 	console.log("Attempting to connect to mariadb...");
 	con.connect(function(err) {
 	  	if (err) {
-  		  console.log("Error al conectar con DB @ /create");
-	   	  res.send("Error while attempting to connect to DB @ /create.");
+  		  console.log("Error while attempting to connect to DB @ /create");
 	   	  console.log(err);
+	  	  res.send("Error while attempting to connect to DB @ /create.");
 	  	  //throw err;
 	  	}	
 	  	console.log("Connected!");
@@ -257,10 +257,13 @@ app.get('/data', function(req, res){
 	console.log("Attempting to connect to mariadb...");
 	con.connect(function(err) {
   		if (err) { 
-  			console.log("Error al conectar con DB @ data");	
+  			console.log("Error while attempting to connect to DB @ data");
+  			console.log(err);
+  			res.send("Error while attempting to connect to DB @ data");	
   			//throw err;
   		}
-	  con.query("SELECT * FROM customers", function (op_error, result, fields) {
+  		console.log("Connected to mariadb!");
+	  	con.query("SELECT * FROM customers", function (op_error, result, fields) {
 	    if (op_error) {
 	    	console.log("Error found while attempting to get all data.");
   			console.log(op_error);		  			
@@ -305,7 +308,9 @@ app.post('/data', function(req, res){
 	console.log("Attempting to connect to mariadb...");
 	con.connect(function(err) {
   		if (err) { 
-  			console.log("Error al conectar con DB @ data (post)");	
+  			console.log("Error while attempting to connect to DB @ data (POST)");
+  			console.log(err);
+  			res.send("Error while attempting to connect to DB @ data (POST)");		
   			//throw err;
   		}
   		user_name = body_data.name;
