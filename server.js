@@ -42,7 +42,6 @@ var env_data = function () {
 	console.log("mariaUser =" + mariaUser);
 	console.log("\nmariaURLLabel =" + mariaURLLabel);
 	console.log("mariaURL =" + mariaURL);
-
 	console.log(con);
 
 }
