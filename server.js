@@ -24,16 +24,6 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
 //Importar sql
 var mysql=require('mysql');
 
-//Crear variable de conexion
-var connection = mysql.createConnection( {
-	host : ip,
-	user: 'felipe',
-	password: 'practicazweicom',
-	database: 'users',
-	port: port
-});
-
-
 // FUNCTION: env_data -> Look at env through prints in console
 var env_data = function () {
 
@@ -79,6 +69,14 @@ if (mariaURL == null && process.env.DATABASE_SERVICE_NAME) {
 
 }
 
+//Crear variable de conexion
+var con = mysql.createConnection( {
+	host : ip,
+	user: mariaUser,
+	password: mariaPassword,
+	database: mariaDatabase,
+	port: port
+});
 /*
 var db = null,
     dbDetails = new Object();
