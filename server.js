@@ -75,7 +75,7 @@ var con = mysql.createConnection( {
 	user: mariaUser,
 	password: mariaPassword,
 	database: mariaDatabase,
-	port: mariaport
+	port: mariaPort
 });
 /*
 var db = null,
