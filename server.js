@@ -262,7 +262,7 @@ app.get('/data', function(req, res){
   			res.send("Error while attempting to connect to DB @ data");	
   			//throw err;
   		}
-  		console.log("Connected to mariadb!");
+  		console.log("Post error section...");
 	  	con.query("SELECT * FROM customers", function (op_error, result, fields) {
 	    if (op_error) {
 	    	console.log("Error found while attempting to get all data.");
@@ -287,6 +287,7 @@ app.get('/data', function(req, res){
 		});
 
 	  });
+	  con.end();
 	});
 
 });
