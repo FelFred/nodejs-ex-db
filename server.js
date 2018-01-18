@@ -71,7 +71,7 @@ if (mariaURL == null && process.env.DATABASE_SERVICE_NAME) {
 
 //Crear variable de conexion
 var con = mysql.createConnection( {
-	hostname : mariaHost,
+	host : mariaHost,
 	user: mariaUser,
 	password: mariaPassword,
 	database: mariaDatabase,
@@ -264,30 +264,32 @@ app.get('/data', function(req, res){
   		}
   		console.log("Post error section...");
 	  	con.query("SELECT * FROM customers", function (op_error, result, fields) {
-	    if (op_error) {
-	    	console.log("Error found while attempting to get all data.");
-  			console.log(op_error);		  			
-  			res.send("Error found while attempting to get all data.");
-        	//throw err;
-	    }	    
-	    console.log(result);
-	    res.json(result);
-	    var sql = "INSERT INTO customers (name, address) VALUES ?";
-	    var values = [
-    	[client_external_ip, new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') ]
-    	];
-		con.query(sql, [values], function (op_error, result) {
 		    if (op_error) {
-	    		console.log("Error found while attempting to save registry.");
-  				console.log(op_error);		  			
-  				res.send("Error found while attempting to save registry");
-     			//throw err;
-		    }
-		    console.log("Date record inserted into registry");
-		});
+		    	console.log("Error found while attempting to get all data.");
+	  			console.log(op_error);		  			
+	  			res.send("Error found while attempting to get all data.");
+	        	//throw err;
+		    }	    
+		    console.log(result);
+		    res.json(result);
+	    });
+		    var sql = "INSERT INTO customers (name, address) VALUES ?";
+		    var values = [
+	    	[client_external_ip, new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') ]
+	    	];
 
-	  });
-	  con.end();
+		con.query(sql, [values], function (op_error, result) {
+			    if (op_error) {
+		    		console.log("Error found while attempting to save registry.");
+	  				console.log(op_error);		  			
+	  				res.send("Error found while attempting to save registry");
+	     			//throw err;
+			    }
+			    console.log("Date record inserted into registry");			    
+		});
+		res.end();
+	  	
+	  //con.end();
 	});
 
 });
