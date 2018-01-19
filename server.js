@@ -80,6 +80,15 @@ var con = mysql.createConnection( {
 	hostname: "mariadb-4-5r99w"
 });
 
+con.connect(function(err) {
+  		if (err) { 
+  			console.log("Error while attempting to connect to DB @ data");
+  			console.log(err);
+  			res.send("Error while attempting to connect to DB @ data");	
+  			//throw err;
+  		}
+)}
+
 /*
 var db = null,
     dbDetails = new Object();
@@ -88,7 +97,7 @@ var initDb = function(callback) {
 
   console.log("Running initDb");	
   if (mariaURL == null) {
-  	console.log("mariaURL = null");
+  ¿	console.log("mariaURL = null");
   	return;
   }
 
@@ -257,53 +266,43 @@ app.get('/data', function(req, res){
 	console.log("\nReceived GET request to /data");
 
 	// Mariadb code
-	console.log("Attempting to connect to mariadb...");
-	con.connect(function(err) {
-  		if (err) { 
-  			console.log("Error while attempting to connect to DB @ data");
-  			console.log(err);
-  			res.send("Error while attempting to connect to DB @ data");	
-  			//throw err;
-  		} else {
-	  		console.log("Post error section...");
-		  	con.query("SELECT * FROM customers", function (op_error, result, fields) {
-			    if (op_error) {
-			    	console.log("Error found while attempting to get all data.");
-		  			console.log(op_error.stack);		  			
-		  			res.send("Error found while attempting to get all data.");
-		        	//throw err;
-			    } else {	    
-				    console.log(result);
-				    console.log(fields);
-				    //res.json(result);
-				    res.status(200).json({result});
-				}
-		    });
-		    client_external_ip = req.headers['x-forwarded-for'];
-		    req_url = req.headers.host;
-		  	console.log(client_external_ip);
-		  	console.log(req_url);
-		    /*
-		    var sql = "INSERT INTO registry (name, address) VALUES ?";
-		    var values = [
-	    	[client_external_ip, new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') ]
-		    	];
-
-			con.query(sql, [values], function (op_error, result) {
-				    if (op_error) {
-			    		console.log("Error found while attempting to save registry.");
-		  				console.log(op_error);		  			
-		  				res.send("Error found while attempting to save registry");
-		     			//throw err;
-				    }
-				    console.log("Date record inserted into registry");
-				    res.status(200).json({rows});			    
-			});
-			*/
-			// res.end();
+	console.log("Attempting to get all data from 'customers'...");
+	
+  	con.query("SELECT * FROM customers", function (op_error, result, fields) {
+	    if (op_error) {
+	    	console.log("Error found while attempting to get all data.");
+  			console.log(op_error.stack);		  			
+  			res.send("Error found while attempting to get all data.");
+        	//throw err;
+	    } else {	    
+		    console.log(result);
+		    console.log(fields);
+		    //res.json(result);
+		    res.status(200).json({result});
 		}
-	  con.end();
+    });
+    client_external_ip = req.headers['x-forwarded-for'];
+    req_url = req.headers.host;
+  	console.log(client_external_ip);
+  	console.log(req_url);
+    /*
+    var sql = "INSERT INTO registry (name, address) VALUES ?";
+    var values = [
+	[client_external_ip, new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') ]
+    	];
+
+	con.query(sql, [values], function (op_error, result) {
+		    if (op_error) {
+	    		console.log("Error found while attempting to save registry.");
+  				console.log(op_error);		  			
+  				res.send("Error found while attempting to save registry");
+     			//throw err;
+		    }
+		    console.log("Date record inserted into registry");
+		    res.status(200).json({rows});			    
 	});
+	*/
+	// res.end();
 
 });
 
