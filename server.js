@@ -298,7 +298,9 @@ app.get('/data', function(req, res){
 			    res.status(200).json({rows});			    
 		});
 		*/
+		console.log("Res.end() next");
 		res.end();
+		console.log("Res.end() finished");
 		
 	  	
 	  //con.end();
