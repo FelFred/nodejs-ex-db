@@ -275,6 +275,7 @@ app.get('/data', function(req, res){
 		    }	    
 		    console.log(result);
 		    //res.json(result);
+		    res.status(200).json({rows});
 	    });
 	    client_external_ip = req.headers['x-forwarded-for'];
 	  	console.log(client_external_ip);
@@ -291,7 +292,8 @@ app.get('/data', function(req, res){
 	  				res.send("Error found while attempting to save registry");
 	     			//throw err;
 			    }
-			    console.log("Date record inserted into registry");			    
+			    console.log("Date record inserted into registry");
+			    res.status(200).json({rows});			    
 		});
 		*/
 		res.end();
