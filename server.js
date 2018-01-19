@@ -274,7 +274,7 @@ app.get('/data', function(req, res){
 	        	//throw err;
 		    }	    
 		    console.log(result);
-		    res.json(result);
+		    //res.json(result);
 	    });
 	    client_external_ip = req.headers['x-forwarded-for'];
 	  	console.log(client_external_ip);
