@@ -82,12 +82,16 @@ var con = mysql.createConnection( {
 
 con.connect(function(err) {
   		if (err) { 
-  			console.log("Error while attempting to connect to DB @ data");
+  			console.log("Error while attempting to connect to DB ");
   			console.log(err);
-  			res.send("Error while attempting to connect to DB @ data");	
+  			res.send("Error while attempting to connect to DB ");	
   			//throw err;
   		}
-)}
+  		else {
+  			console.log("Database connection success!")
+  		}
+});
+
 
 /*
 var db = null,
