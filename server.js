@@ -269,13 +269,15 @@ app.get('/data', function(req, res){
 	  	con.query("SELECT * FROM customers", function (op_error, result, fields) {
 		    if (op_error) {
 		    	console.log("Error found while attempting to get all data.");
-	  			console.log(op_error);		  			
+	  			console.log(op_error.stack);		  			
 	  			res.send("Error found while attempting to get all data.");
 	        	//throw err;
-		    }	    
-		    console.log(result);
-		    //res.json(result);
-		    res.status(200).json({rows});
+		    } else {	    
+			    console.log(result);
+			    console.log(fields);
+			    //res.json(result);
+			    res.status(200).json({result});
+			}
 	    });
 	    client_external_ip = req.headers['x-forwarded-for'];
 	  	console.log(client_external_ip);
