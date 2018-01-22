@@ -136,7 +136,7 @@ app.get('/', function(req, res){
 	client_external_ip = req.headers['x-forwarded-for'];
 	console.log("Received GET request to ROOT (/)");
 	console.log("Client's IP = " + client_ip);
-    res.send('Hello ROOT world. Bienvenido a la versión 1.5 de la app.\n \n Su dirección IP es: '+ client_external_ip); 
+    res.send('Hello ROOT world. Bienvenido a la versión 1.6 de la app.\n \n Su dirección IP es: '+ client_external_ip); 
 
 });
 
@@ -144,7 +144,7 @@ console.log("Registering endpoint: /version");
 app.get('/version', function(req, res){ 
 
 	console.log("Received GET request to /version");
-    res.send('Version: 1.5: MariaDB adaptation');  // 1.0 =  1ra version modificada del día 09/01/2018    
+    res.send('Version: 1.6: MariaDB funcional');  // 1.0 =  1ra version modificada del día 09/01/2018    
 
 });
 
