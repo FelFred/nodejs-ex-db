@@ -208,7 +208,7 @@ app.get('/create', function(req, res){
     	console.log("Table 'customers' created");
   	});
   	// Crea tabla registry
-  	var sql = "CREATE TABLE registry (id INT AUTO_INCREMENT PRIMARY KEY, ip VARCHAR(255), date VARCHAR(255))";
+  	var sql = "CREATE TABLE registry (id INT AUTO_INCREMENT PRIMARY KEY, ip VARCHAR(255), date VARCHAR(255), url VARCHAR(255))";
   	con.query(sql, function (op_error, result) {
     	if (op_error) { 
     		console.log("Error found while attempting to create table: registry");
@@ -251,9 +251,6 @@ app.get('/create', function(req, res){
   	});
 
 	
-
-
-	
 });
 
 
@@ -287,7 +284,7 @@ app.get('/data', function(req, res){
     
     var sql = "INSERT INTO registry (ip, date) VALUES ?";
     var values = [
-	[client_external_ip, new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') ]
+	[client_external_ip, new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''), req_url ]
     	];
 
 	con.query(sql, [values], function (op_error, result) {
