@@ -84,7 +84,7 @@ con.connect(function(err) {
   		if (err) { 
   			console.log("Error while attempting to connect to DB ");
   			console.log(err);
-  			res.send("Error while attempting to connect to DB ");	
+  			//res.send("Error while attempting to connect to DB ");	
   			//throw err;
   		}
   		else {
