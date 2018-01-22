@@ -282,7 +282,7 @@ app.get('/data', function(req, res){
   	console.log(client_external_ip);
   	console.log(req_url);
     
-    var sql = "INSERT INTO registry (ip, date) VALUES ?";
+    var sql = "INSERT INTO registry (ip, date, url) VALUES ?";
     var values = [
 	[client_external_ip, new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''), req_url ]
     	];
