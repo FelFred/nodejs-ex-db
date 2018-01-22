@@ -328,7 +328,26 @@ app.post('/data', function(req, res){
 	    console.log(result);
 	    res.json(result);
     });
-  		  	
+
+    client_external_ip = req.headers['x-forwarded-for'];
+    req_url = req.headers.host;
+  	console.log(client_external_ip);
+  	console.log(req_url);
+    
+    var sql = "INSERT INTO registry (ip, date, url) VALUES ?";
+    var values = [
+	[client_external_ip, new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''), req_url ]
+    	];
+
+	con.query(sql, [values], function (op_error, result) {
+		    if (op_error) {
+	    		console.log("Error found while attempting to save registry.");
+  				console.log(op_error);		  			
+  				//res.send("Error found while attempting to save registry");
+     			//throw err;
+		    }
+		    console.log("Date record inserted into registry");
+	}); 		  	
 	
     
 }); 
