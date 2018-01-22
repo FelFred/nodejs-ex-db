@@ -196,7 +196,7 @@ app.get('/create', function(req, res){
 	console.log("\nReceived GET request to /create");
 
 	// Mariadb code
-	console.log("Attempting to connect to mariadb...");
+	console.log("Attempting to connect to create db and insert data into it...");
   	var sql = "CREATE TABLE customers (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255))";
   	con.query(sql, function (op_error, result) {
     	if (op_error) { 
@@ -270,7 +270,7 @@ app.get('/data', function(req, res){
         	//throw err;
 	    } else {	    
 		    console.log(result);
-		    console.log(fields);
+		    //console.log(fields);
 		    //res.json(result);
 		    res.status(200).json({result});
 		}
@@ -315,27 +315,21 @@ app.post('/data', function(req, res){
 
 
 	// Mariadb code
-	console.log("Attempting to connect to mariadb...");
-	con.connect(function(err) {
-  		if (err) { 
-  			console.log("Error while attempting to connect to DB @ data (POST)");
-  			console.log(err);
-  			res.send("Error while attempting to connect to DB @ data (POST)");		
-  			//throw err;
-  		}
-  		user_name = body_data.name;
-	  	con.query("SELECT * FROM customers WHERE name= ?",[user_name], function (op_error, result, fields) {
-		    if (op_error) {
-		    	console.log("Error found while attempting to get a particular record.");
-	  			console.log(op_error);		  			
-	  			res.send("Error found while attempting to get a particular record.");
-	        	//throw err;
-		    }	    
-		    console.log(result);
-		    res.json(result);
-	    });
-	  		  	
-	});
+	console.log("Attempting to connect to get a particular record from customers table...");
+	
+	user_name = body_data.name;
+  	con.query("SELECT * FROM customers WHERE name= ?",[user_name], function (op_error, result, fields) {
+	    if (op_error) {
+	    	console.log("Error found while attempting to get a particular record.");
+  			console.log(op_error);		  			
+  			res.send("Error found while attempting to get a particular record.");
+        	//throw err;
+	    }	    
+	    console.log(result);
+	    res.json(result);
+    });
+  		  	
+	
     
 }); 
 
@@ -344,26 +338,19 @@ app.get('/registry', function(req, res){
 
 	console.log("\nReceived GET request to /registry");
 
-		// Mariadb code
-	console.log("Attempting to connect to mariadb...");
-	con.connect(function(err) {
-  		if (err) { 
-  			console.log("Error al conectar con DB @ data");	
-  			//throw err;
-  		}
-	  con.query("SELECT * FROM registry", function (op_error, result, fields) {
+	// Mariadb code
+	con.query("SELECT * FROM registry", function (op_error, result, fields) {
 	    if (op_error) {
 	    	console.log("Error found while attempting to get all data from registry.");
   			console.log(op_error);		  			
   			res.send("Error found while attempting to get all data from registry.");
         	//throw err;
-	    }	    
+	    } else {	    
 	    console.log(result);
 	    res.json(result);
-	    
-	  });
+	    }
 	});
-
+	
 });
 
 
