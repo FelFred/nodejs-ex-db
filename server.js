@@ -144,7 +144,7 @@ console.log("Registering endpoint: /version");
 app.get('/version', function(req, res){ 
 
 	console.log("Received GET request to /version");
-    res.send('Version: 1.6: MariaDB funcional, health check test 2');  // 1.0 =  1ra version modificada del día 09/01/2018    
+    res.send('Version: 1.6: MariaDB funcional, health check test 3');  // 1.0 =  1ra version modificada del día 09/01/2018    
 
 });
 
