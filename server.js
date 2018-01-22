@@ -197,67 +197,60 @@ app.get('/create', function(req, res){
 
 	// Mariadb code
 	console.log("Attempting to connect to mariadb...");
-	con.connect(function(err) {
-	  	if (err) {
-  		  console.log("Error while attempting to connect to DB @ /create");
-	   	  console.log(err);
-	  	  res.send("Error while attempting to connect to DB @ /create.");
-	  	  //throw err;
-	  	}	
-	  	console.log("Connected!");
-	  	// Crea tabla "customers"
-	  	var sql = "CREATE TABLE customers (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255))";
-	  	con.query(sql, function (op_error, result) {
-	    	if (op_error) { 
-	    		console.log("Error found while attempting to create table: customers");
-	    		console.log(op_error);
-	    		res.send("Error found while attempting to create table: customers");
-	    		//throw err;
-	    	}
-	    	console.log("Table 'customers' created");
-	  	});
-	  	// Crea tabla registry
-	  	var sql = "CREATE TABLE registry (id INT AUTO_INCREMENT PRIMARY KEY, ip VARCHAR(255), date VARCHAR(255))";
-	  	con.query(sql, function (op_error, result) {
-	    	if (op_error) { 
-	    		console.log("Error found while attempting to create table: registry");
-	    		console.log(op_error);
-	    		res.send("Error found while attempting to create table: registry");
-	    		//throw err;
-	    	}
-	    	console.log("Table 'registry' created");
-	  	});
+  	var sql = "CREATE TABLE customers (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255))";
+  	con.query(sql, function (op_error, result) {
+    	if (op_error) { 
+    		console.log("Error found while attempting to create table: customers");
+    		console.log(op_error);
+    		//res.send("Error found while attempting to create table: customers");
+    		//throw err;
+    	}
+    	console.log("Table 'customers' created");
+  	});
+  	// Crea tabla registry
+  	var sql = "CREATE TABLE registry (id INT AUTO_INCREMENT PRIMARY KEY, ip VARCHAR(255), date VARCHAR(255))";
+  	con.query(sql, function (op_error, result) {
+    	if (op_error) { 
+    		console.log("Error found while attempting to create table: registry");
+    		console.log(op_error);
+    		//res.send("Error found while attempting to create table: registry");
+    		//throw err;
+    	}
+    	console.log("Table 'registry' created");
+  	});
 
 
-	  	var sql = "INSERT INTO customers (name, address) VALUES ?";
-	  	var values = [
-	    ['John', 'Highway 71'],
-	    ['Peter', 'Lowstreet 4'],
-	    ['Amy', 'Apple st 652'],
-	    ['Hannah', 'Mountain 21'],
-	    ['Michael', 'Valley 345'],
-	    ['Sandy', 'Ocean blvd 2'],
-	    ['Betty', 'Green Grass 1'],
-	    ['Richard', 'Sky st 331'],
-	    ['Susan', 'One way 98'],
-	    ['Vicky', 'Yellow Garden 2'],
-	    ['Ben', 'Park Lane 38'],
-	    ['William', 'Central st 954'],
-	    ['Chuck', 'Main Road 989'],
-	    ['Viola', 'Sideway 1633']
-	  	];
+  	var sql = "INSERT INTO customers (name, address) VALUES ?";
+  	var values = [
+    ['John', 'Highway 71'],
+    ['Peter', 'Lowstreet 4'],
+    ['Amy', 'Apple st 652'],
+    ['Hannah', 'Mountain 21'],
+    ['Michael', 'Valley 345'],
+    ['Sandy', 'Ocean blvd 2'],
+    ['Betty', 'Green Grass 1'],
+    ['Richard', 'Sky st 331'],
+    ['Susan', 'One way 98'],
+    ['Vicky', 'Yellow Garden 2'],
+    ['Ben', 'Park Lane 38'],
+    ['William', 'Central st 954'],
+    ['Chuck', 'Main Road 989'],
+    ['Viola', 'Sideway 1633']
+  	];
 
-	    con.query(sql, [values], function (op_error, result) {
-		    if (op_error) {
-		    	console.log("Error found while attempting to insert records into the table.")
-	    		console.log(op_error);
-	    		res.send({message:"Error found while attempting to insert records into the table.", error: op_error.message});
-		    // throw err;
-			}
-		    console.log("Number of records inserted: " + result.affectedRows);
-	  	});
+    con.query(sql, [values], function (op_error, result) {
+	    if (op_error) {
+	    	console.log("Error found while attempting to insert records into the table.")
+    		console.log(op_error);
+    		res.send({message:"Error found while attempting to insert records into the table.", error: op_error.message});
+	    // throw err;
+		} else {
+	    console.log("Number of records inserted: " + result.affectedRows);
+	    res.send("Message were inserted succesfully.");
+		}
+  	});
 
-	});
+	
 
 
 	
@@ -292,7 +285,7 @@ app.get('/data', function(req, res){
   	console.log(client_external_ip);
   	console.log(req_url);
     
-    var sql = "INSERT INTO registry (name, address) VALUES ?";
+    var sql = "INSERT INTO registry (ip, date) VALUES ?";
     var values = [
 	[client_external_ip, new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') ]
     	];
