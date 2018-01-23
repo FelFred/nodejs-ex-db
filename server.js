@@ -43,6 +43,8 @@ var env_data = function () {
 	console.log("\nmariaURLLabel =" + mariaURLLabel);
 	console.log("mariaURL =" + mariaURL);
 	console.log(con);
+	console.log("\nPrinting openshift env data...");
+	console.log(process.env.OPENSHIFT_ENV_VAR);
 
 }
 
