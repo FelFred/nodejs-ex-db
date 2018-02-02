@@ -72,14 +72,27 @@ if (mariaURL == null && process.env.DATABASE_SERVICE_NAME) {
 
 }
 
+
+
 //Crear variable de conexion
-var con = mysql.createConnection( {
+/*
+var con = mysql.createConnection( {  // OpenShift
 	host : mariaHost,
 	user: mariaUser,
 	password: mariaPassword,
 	database: mariaDatabase,
 	port: mariaPort,
 	//hostname: "mariadb-4-5r99w"
+});
+*/
+
+//Falta nombre de la db. O tendré que crearla yo? R: se agrega con variable de entorno pero asumiría que es parte de la config que se hace (por revisar )
+var con = mysql.createConnection({  // AWS
+  host     : process.env.RDS_HOSTNAME,
+  user     : process.env.RDS_USERNAME,
+  password : process.env.RDS_PASSWORD,
+  port     : process.env.RDS_PORT,
+  database : process.env.RDS_DB_NAME
 });
 
 con.connect(function(err) {
@@ -95,41 +108,6 @@ con.connect(function(err) {
 });
 
 
-/*
-var db = null,
-    dbDetails = new Object();
-
-var initDb = function(callback) {
-
-  console.log("Running initDb");	
-  if (mariaURL == null) {
-  ¿	console.log("mariaURL = null");
-  	return;
-  }
-
-  var mariadb = require('mariadb');
-  if (mariadb == null) {
-  	console.log("mariadb = null");
-  	return;
-  }
-
-  mongodb.connect(mongoURL, function(err, conn) {
-    if (err) {
-   	  console.log("Error al conectar con DB @ initDb")
-      callback(err);
-      return;
-    }
-
-    db = conn;
-    dbDetails.databaseName = db.databaseName;
-    dbDetails.url = mongoURLLabel;
-    dbDetails.type = 'MongoDB';
-
-    console.log('Connected to MongoDB at: %s', mongoURL);
-  });
-
-};
-*/
 
 // Endpoints
 app.get('/', function(req, res){
